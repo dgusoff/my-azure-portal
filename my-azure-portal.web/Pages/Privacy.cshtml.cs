@@ -11,7 +11,7 @@ namespace my_azure_portal.web.Pages
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
-
+        public string Message { get; set; }
         public PrivacyModel(ILogger<PrivacyModel> logger)
         {
             _logger = logger;
@@ -19,6 +19,7 @@ namespace my_azure_portal.web.Pages
 
         public void OnGet()
         {
+            Message = "foo";
         }
     }
 }

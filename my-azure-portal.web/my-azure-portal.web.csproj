@@ -11,4 +11,9 @@
     <PackageReference Include="WindowsAzure.Storage" Version="9.3.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\my-portal.data\my-portal.data.csproj" />
+    <ProjectReference Include="..\my-portal.models\my-portal.models.csproj" />
+  </ItemGroup>
+
 </Project>

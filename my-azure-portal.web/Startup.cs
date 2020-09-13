@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using my_portal.data;
+using my_portal.models;
 
 namespace my_azure_portal.web
 {
@@ -37,24 +40,27 @@ namespace my_azure_portal.web
                 options.HandleSameSiteCookieCompatibility();
             });
 
-            services.AddOptions();
+
+            //services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            //     .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"))
+            //     .EnableTokenAcquisitionToCallDownstreamApi()
+            //     .AddInMemoryTokenCaches()
+            //    ;
 
             services.AddMicrosoftIdentityWebAppAuthentication(Configuration)
-                    .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "User.Read" })
-                    .AddInMemoryTokenCaches();
+                .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "user.read" })
+                .AddInMemoryTokenCaches();
 
-            // Add APIs
-           // services.AddGraphService(Configuration);
-           // services.AddHttpClient<IArmOperations, ArmApiOperationService>();
+            services.AddHttpClient<ISubscriptionData, SubscriptionData>();
 
-            services.AddControllersWithViews(options =>
+            services.AddRazorPages().AddMvcOptions(options =>
             {
                 var policy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
                 options.Filters.Add(new AuthorizeFilter(policy));
             }).AddMicrosoftIdentityUI();
-            services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,6 +88,7 @@ namespace my_azure_portal.web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
