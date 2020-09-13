@@ -17,14 +17,15 @@ namespace my_azure_portal.web.Pages
         private readonly ILogger<IndexModel> _logger;
         readonly ITokenAcquisition tokenAcquisition;
         string accessToken;
-        public string Message { get; set; }
-        public string SubData { get; set; }
+        public IEnumerable<Subscription> Subscriptions { get; set; }
+        public string Error { get; set; }
 
         public IndexModel(ISubscriptionData data, ITokenAcquisition tokenAcquisition, ILogger<IndexModel> logger)
         {
             _logger = logger;
             this.tokenAcquisition = tokenAcquisition;
             this.data = data;
+            Error = "";
         }
 
         public async Task OnGet()
@@ -34,12 +35,15 @@ namespace my_azure_portal.web.Pages
                 this.accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(new[] { $"https://management.core.windows.net/user_impersonation" });
                 //Message = this.accessToken;
 
-                string subJson = await this.data.GetSubscriptions(this.accessToken);
-                Message = subJson;
+                Subscriptions = await this.data.GetSubscriptions(this.accessToken);
+                
             }
             catch(Exception ex)
             {
-                Message = ex.Message;
+                Response.Cookies.Delete(".AspNetCore.Cookies");
+                Response.Redirect("/");
+                Subscriptions = new List<Subscription>();
+                Error = ex.Message;
             }
         }
     }

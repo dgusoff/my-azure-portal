@@ -7,6 +7,6 @@ namespace my_portal.models
 {
     public interface ISubscriptionData
     {
-        public Task<string> GetSubscriptions(string accessToken);
+        public Task<IEnumerable<Subscription>> GetSubscriptions(string accessToken);
     }
 }
