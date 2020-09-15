@@ -52,6 +52,7 @@ namespace my_azure_portal.web
                 .AddInMemoryTokenCaches();
 
             services.AddHttpClient<ISubscriptionData, SubscriptionData>();
+            services.AddHttpClient<IResourceGroupData, ResourceGroupData>();
 
             services.AddRazorPages().AddMvcOptions(options =>
             {

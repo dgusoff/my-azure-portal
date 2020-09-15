@@ -5,10 +5,10 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Subscriptions</h1>
+    <p>Click on a subscription to see the resource groups under it</p>
 
-    <table>
+    <table class="table table-hover table-striped">
     @foreach(var sub in Model.Subscriptions)
     {
         <tr>

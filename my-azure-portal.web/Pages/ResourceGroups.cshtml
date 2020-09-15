@@ -1,0 +1,21 @@
+﻿@page
+@model my_azure_portal.web.Pages.SubscriptionsModel
+@{
+    ViewData["Title"] = "Subscriptions";
+}
+
+<h1>Resource Groups</h1>
+
+
+<table class="table table-hover table-striped">
+    @foreach (var group in Model.ResourceGroups)
+    {
+    <tr>
+        <td>@group.Name</td>
+        <td>@group.Location</td>
+        <td>@group.SubscriptionId</td>
+    </tr>
+    }
+</table>
+
+

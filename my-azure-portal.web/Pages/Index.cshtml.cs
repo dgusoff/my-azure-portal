@@ -33,10 +33,7 @@ namespace my_azure_portal.web.Pages
             try
             {
                 this.accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(new[] { $"https://management.core.windows.net/user_impersonation" });
-                //Message = this.accessToken;
-
-                Subscriptions = await this.data.GetSubscriptions(this.accessToken);
-                
+                Subscriptions = await this.data.GetSubscriptions(this.accessToken);                
             }
             catch(Exception ex)
             {
