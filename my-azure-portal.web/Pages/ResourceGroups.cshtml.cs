@@ -26,11 +26,18 @@ namespace my_azure_portal.web.Pages
             this.data = data;            
         }
 
-        public async Task OnGet()
+        //public async Task OnGet()
+        //{
+        //    this.accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(new[] { $"https://management.core.windows.net/user_impersonation" });
+
+        //    this.ResourceGroups = await data.GetAllResourceGroupsBySubscription("d8370cf8-b42d-42f9-96d1-542d0498972f", accessToken);
+        //}
+
+        public async Task OnGet(string subscriptionId)
         {
             this.accessToken = await tokenAcquisition.GetAccessTokenForUserAsync(new[] { $"https://management.core.windows.net/user_impersonation" });
 
-            this.ResourceGroups = await data.GetAllResourceGroupsBySubscription("d8370cf8-b42d-42f9-96d1-542d0498972f", accessToken);
+            this.ResourceGroups = await data.GetAllResourceGroupsBySubscription(subscriptionId, accessToken);
         }
     }
 }
