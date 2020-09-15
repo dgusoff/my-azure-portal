@@ -12,8 +12,9 @@
     @foreach(var sub in Model.Subscriptions)
     {
         <tr>
+            <td><a asp-page="/ResourceGroups" asp-route-subscriptionId="@sub.Id">@sub.DisplayName</a></td>
             <td>@sub.Id</td>
-            <td>@sub.DisplayName</td>
+
         </tr>
     }
     </table>
