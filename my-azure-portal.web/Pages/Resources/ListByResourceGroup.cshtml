@@ -1,0 +1,22 @@
+﻿@page
+@model my_azure_portal.web.Pages.Resources.ListByResourceGroupModel
+@{
+    ViewData["Title"] = "ListByResourceGroup";
+}
+
+<h1>ListByResourceGroup</h1>
+
+<table class="table table-hover table-striped">
+    @foreach (var res in Model.Resources)
+    {
+    <tr>
+        <td>@res.Name</td>
+        <td>@res.Location</td>
+        <td>@res.Type</td>
+        <td>@res.Id</td>
+
+    </tr>
+    }
+</table>
+
+
