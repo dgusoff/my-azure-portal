@@ -10,5 +10,7 @@ namespace my_portal.models
         public Task<IEnumerable<ResourceGroup>> GetAllResourceGroupsBySubscription(string subscriptionId, string accessToken);        
 
         public Task<string> GetAllResourceGroups(string accessToken);
+
+        public Task<IEnumerable<Resource>> GetAllResourcesBySubscription(string subscriptionId, string resourceGroupName, string accessToken);
     }
 }

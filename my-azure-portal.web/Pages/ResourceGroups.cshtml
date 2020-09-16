@@ -11,7 +11,7 @@
     @foreach (var group in Model.ResourceGroups)
     {
     <tr>
-        <td>@group.Name</td>
+        <td><a asp-page="/Resources/ListByResourceGroup" asp-route-subscriptionId="@group.SubscriptionId" asp-route-resourceGroupName="@group.Name">@group.Name</a></td>
         <td>@group.Location</td>
         <td>@group.SubscriptionId</td>
     </tr>
