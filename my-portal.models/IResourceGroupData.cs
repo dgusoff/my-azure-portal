@@ -12,5 +12,9 @@ namespace my_portal.models
         public Task<string> GetAllResourceGroups(string accessToken);
 
         public Task<IEnumerable<Resource>> GetAllResourcesBySubscription(string subscriptionId, string resourceGroupName, string accessToken);
+
+        public Task<ContainerGroup> GetContainerGroupById(string subscriptionId, string resourceGroupName, string containerGroupName, string accessToken);
+
+        public Task<ContainerGroup> GetContainerGroupById(string resourceId, string accessToken);
     }
 }
