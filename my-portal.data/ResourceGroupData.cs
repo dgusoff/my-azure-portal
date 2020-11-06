@@ -17,6 +17,7 @@ namespace my_portal.data
         // h ttps://management.azure.com/subscriptions/{subscriptionId}/resourcegroups?api-version=2020-06-01
         string managementApi = "https://management.azure.com/subscriptions/{0}/resourcegroups?api-version={1}";
         string getResourcesRestApi = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/resources?api-version={2}";
+        string getContainerGroupsRestApi = "https://management.azure.com/subscriptions/{0}/resourceGroups/{1}/providers/Microsoft.ContainerInstance/containerGroups/{2}?api-version=2019-12-01";
         string apiVersion = "2020-01-01";
 
         public string Json { get; set; }
@@ -38,11 +39,7 @@ namespace my_portal.data
             List<ResourceGroup> resourceGroups = new List<ResourceGroup>();
 
             string url = string.Format(managementApi, subscriptionId, apiVersion);
-            var httpResult = await httpClient.GetAsync(url);
-            string json = await httpResult.Content.ReadAsStringAsync();
-
-            JObject jsonResult = JObject.Parse(json);
-            IList<JToken> results = jsonResult["value"].Children().ToList();
+            IList<JToken> results = await SendRequest(url);
 
             foreach (JToken result in results)
             {
@@ -61,11 +58,7 @@ namespace my_portal.data
             ApplyAuthHeader(accessToken);
 
             string url = string.Format(getResourcesRestApi, subscriptionId, resourceGroupName, apiVersion);
-            var httpResult = await httpClient.GetAsync(url);
-            string json = await httpResult.Content.ReadAsStringAsync();
-
-            JObject jsonResult = JObject.Parse(json);
-            IList<JToken> results = jsonResult["value"].Children().ToList();
+            IList<JToken> results = await SendRequest(url);           
 
             foreach (JToken result in results)
             {
@@ -77,12 +70,44 @@ namespace my_portal.data
             return resources;
         }
 
+        public async Task<ContainerGroup> GetContainerGroupById(string subscriptionId, string resourceGroupName, string containerGroupName, string accessToken)
+        {
+            string url = string.Format(getContainerGroupsRestApi, subscriptionId, resourceGroupName, containerGroupName);
+            IList<JToken> results = await SendRequest(url);
+
+            return null;
+        }
+
+        public async Task<ContainerGroup> GetContainerGroupById(string resourceId, string accessToken)
+        {
+            ApplyAuthHeader(accessToken);
+
+            string url = $"https://management.azure.com{resourceId}?api-version=2019-12-01";
+            IList<JToken> results = await SendRequest(url);
+
+            return results;
+        }
+
         private void ApplyAuthHeader(string accessToken)
         {
             if (!httpClient.DefaultRequestHeaders.Contains("Authorization"))
             {
                 httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {accessToken}");
             }
-        }      
+        }
+
+        private async Task<IList<JToken>> SendRequest(string url)
+        {
+            var httpResult = await httpClient.GetAsync(url);
+            string json = await httpResult.Content.ReadAsStringAsync();
+
+            JObject jsonResult = JObject.Parse(json);
+            IList<JToken> results = jsonResult["value"].Children().ToList();
+
+
+            return results;
+        }
+
+    
     }
 }

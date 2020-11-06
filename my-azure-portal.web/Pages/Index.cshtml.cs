@@ -10,7 +10,10 @@ using my_portal.models;
 
 namespace my_azure_portal.web.Pages
 {
-    [AuthorizeForScopes(Scopes = new[] { "https://management.core.windows.net/user_impersonation", "user.read", "directory.read.all" })]
+    [AuthorizeForScopes(
+        Scopes = new[] { "https://management.core.windows.net/user_impersonation", 
+                         "user.read", 
+                         "directory.read.all" })]
     public class IndexModel : PageModel
     {
         readonly ISubscriptionData data;

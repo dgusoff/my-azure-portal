@@ -9,13 +9,26 @@
 <table class="table table-hover table-striped">
     @foreach (var res in Model.Resources)
     {
-    <tr>
-        <td>@res.Name</td>
-        <td>@res.Location</td>
-        <td>@res.Type</td>
-        <td>@res.Id</td>
+        @if (res.Type == "Microsoft.ContainerInstance/containerGroups")
+        {
+            <tr>
+                <td><a asp-page="/Resources/ContainerInstances/GetById" asp-route-resourceId="@res.Id" >@res.Name</a></td>
+                <td>@res.Location</td>
+                <td>@res.Type</td>
+                <td>@res.Id</td>
 
-    </tr>
+            </tr>
+        }
+        else
+        {
+            <tr>
+                <td>@res.Name</td>
+                <td>@res.Location</td>
+                <td>@res.Type</td>
+                <td>@res.Id</td>
+
+            </tr>
+        }
     }
 </table>
 
